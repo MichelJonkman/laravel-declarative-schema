@@ -3,6 +3,7 @@
 namespace MichelJonkman\DbalSchema\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use MichelJonkman\DbalSchema\Console\MigrateSchemaCommand;
 
 class DbalSchemaServiceProvider extends ServiceProvider
 {
@@ -12,5 +13,10 @@ class DbalSchemaServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                MigrateSchemaCommand::class,
+            ]);
+        }
     }
 }
