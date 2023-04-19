@@ -1,1 +1,0 @@
-import{_ as e}from"./_plugin-vue_export-helper-c27b6911.js";import{c as t,a as o,b as a,o as s}from"./runtime-core.esm-bundler-4c6856a8.js";const c={name:"Text"},n=a("input",{type:"text",placeholder:"text"},null,-1);function r(p,l,_,d,i,f){return s(),t("div",null,[o(" Testing fieldtype "),n])}const u=e(c,[["render",r]]);export{u as default};

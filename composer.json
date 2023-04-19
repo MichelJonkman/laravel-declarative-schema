@@ -1,0 +1,44 @@
+{
+    "name": "micheljonkman/laravel-dbal-schema",
+    "version": "0.0.1",
+    "description": "",
+    "keywords": [
+        "MichelJonkman",
+        "laravel-director",
+        "laravel-dbal-schema"
+    ],
+    "homepage": "https://github.com/micheljonkman/laravel-dbal-schema",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michel Jonkman",
+            "email": "mj.99@live.nl",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "micheljonkman/laravel-director": "^0.0.1",
+        "doctrine/dbal": "^3.6.2"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "MichelJonkman\\DbalSchema\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MichelJonkman\\DbalSchema\\Providers\\DbalSchemaServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {}
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

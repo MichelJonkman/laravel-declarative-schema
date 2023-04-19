@@ -1,3 +1,3 @@
-# laravel-director-example
+# laravel-dbal-schema
 
-This is an example for how to add content to Laravel Director
+Laravel declarative schema using doctrine/dbal
