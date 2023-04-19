@@ -1,0 +1,1 @@
+import{d as t,c as n,t as a,o as s}from"./runtime-core.esm-bundler-4c6856a8.js";const o={class:"nav-link","aria-current":"page"},m=t({__name:"TextElement",props:{element:null},setup(e){return(r,c)=>(s(),n("a",o,a(e.element.text)+"test ",1))}});export{m as default};
