@@ -3,6 +3,7 @@
 namespace MichelJonkman\DbalSchema\Console;
 
 use Illuminate\Console\Command;
+use MichelJonkman\DbalSchema\Database\SchemaCreator;
 
 class MigrateSchemaCommand extends Command
 {
@@ -13,6 +14,10 @@ class MigrateSchemaCommand extends Command
     public function handle()
     {
         $this->info('Migrating declarative schema...');
+
+        $creator = app(SchemaCreator::class);
+
+        $creator->migrateSchema($this->getSchemaPath());
 
         echo '<pre>';
         print_r($this->getSchemaPath());
