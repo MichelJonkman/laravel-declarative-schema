@@ -80,6 +80,10 @@ class SchemaMigrator
             }
         }
 
+        if($this->hasOuput()) {
+            $this->output->writeln('');
+        }
+
         $oldSchema = new Schema($oldTables);
         $newSchema = new Schema($newTables);
 
