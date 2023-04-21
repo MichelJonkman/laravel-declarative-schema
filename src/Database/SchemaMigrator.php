@@ -7,9 +7,9 @@ use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Table;
-use Illuminate\Console\Concerns\InteractsWithIO;
 use Illuminate\Console\View\Components\Info;
 use Illuminate\Console\View\Components\TwoColumnDetail;
+use MichelJonkman\DbalSchema\Events\GetDeclarationsEvent;
 use MichelJonkman\DbalSchema\Exceptions\DeclarativeSchemaException;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -34,7 +34,7 @@ class SchemaMigrator
      */
     public function getDeclarations(string $path): array
     {
-        $tables = [];
+        $tables = collect([]);
 
         $this->write(Info::class, 'Gathering declarations.');
 
@@ -47,6 +47,13 @@ class SchemaMigrator
 
             $tables[] = $declaration->declare();
         }
+
+        GetDeclarationsEvent::dispatch($tables);
+
+        echo '<pre>';
+        print_r($tables->toArray());
+        echo '</pre>';
+        exit;
 
         return $tables;
     }
