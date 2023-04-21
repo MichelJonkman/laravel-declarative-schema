@@ -9,9 +9,11 @@ use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Table;
 use Illuminate\Console\View\Components\Info;
 use Illuminate\Console\View\Components\TwoColumnDetail;
+use Illuminate\Support\Collection;
 use MichelJonkman\DbalSchema\Events\GetDeclarationsEvent;
 use MichelJonkman\DbalSchema\Exceptions\DeclarativeSchemaException;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 
 class SchemaMigrator
 {
@@ -29,10 +31,10 @@ class SchemaMigrator
     }
 
     /**
-     * @return Table[]
+     * @return Table[]|Collection
      * @throws DeclarativeSchemaException
      */
-    public function getDeclarations(string $path): array
+    public function getDeclarations(string $path): array|Collection
     {
         $tables = collect([]);
 
@@ -49,11 +51,6 @@ class SchemaMigrator
         }
 
         GetDeclarationsEvent::dispatch($tables);
-
-        echo '<pre>';
-        print_r($tables->toArray());
-        echo '</pre>';
-        exit;
 
         return $tables;
     }
@@ -117,7 +114,7 @@ class SchemaMigrator
 
             DB::commit();
         }
-        catch (\Throwable $throwable) {
+        catch (Throwable $throwable) {
             DB::rollBack();
             throw $throwable;
         }
