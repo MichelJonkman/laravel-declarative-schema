@@ -1,3 +1,12 @@
-# laravel-dbal-schema
+# Laravel DBAL Schema
 
-Laravel declarative schema using doctrine/dbal
+Uses doctrine/dbal to manage a declarative schema approach that works together with migrations
+
+## Usage
+
+
+
+```
+php artisan migrate:schema
+```
+
