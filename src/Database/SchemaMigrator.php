@@ -14,7 +14,7 @@ use Illuminate\Console\View\Components\TwoColumnDetail;
 use Illuminate\Support\Collection;
 use MichelJonkman\DbalSchema\Events\GetDeclarationsEvent;
 use MichelJonkman\DbalSchema\Exceptions\DeclarativeSchemaException;
-use MichelJonkman\DbalSchema\Models\SchemaTables;
+use MichelJonkman\DbalSchema\Models\SchemaTable;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
@@ -153,9 +153,10 @@ class SchemaMigrator
     protected function getOldTables(array|Collection $newTables): array
     {
         $oldTables = [];
+        $newTableNames = [];
 
         foreach ($newTables as $newTable) {
-            $tableName = $newTable->getName();
+            $newTableNames[] = $tableName = $newTable->getName();
 
             if ($this->schemaManager->tablesExist($tableName)) {
                 $this->write(TwoColumnDetail::class, $tableName, '<fg=blue;options=bold>EXISTS</>');
@@ -163,6 +164,19 @@ class SchemaMigrator
                 $oldTables[] = $this->schemaManager->introspectTable($newTable->getName());
             } else {
                 $this->write(TwoColumnDetail::class, $tableName, '<fg=green;options=bold>NEW</>');
+            }
+        }
+
+        if($this->schemaTableExists()) {
+            $schemaTables = SchemaTable::pluck('table');
+
+            foreach ($schemaTables as $schemaTable) {
+                if(in_array($schemaTable, $newTableNames)) {
+                    continue;
+                }
+
+                $oldTables[] = $this->schemaManager->introspectTable($schemaTable);
+                $this->write(TwoColumnDetail::class, $schemaTable, '<fg=yellow;options=bold>OLD</>');
             }
         }
 
@@ -205,25 +219,31 @@ class SchemaMigrator
      */
     protected function saveTables(array|Collection $newTables): void
     {
-        $current = SchemaTables::get()->keyBy('table');
+        $current = SchemaTable::get()->keyBy('table');
         $new = collect();
 
         foreach ($newTables as $newTable) {
-            $new[] = new SchemaTables([
+            $new[] = new SchemaTable([
                 'table' => $newTable->getName()
             ]);
         }
 
-        $diff = [];
+        $removed = clone $current;
+        $added = [];
 
         foreach ($new as $item) {
             if (!isset($current[$item->table])) {
-                $diff[] = $item;
+                $added[] = $item;
+                unset($removed[$item->table]);
             }
         }
 
-        foreach ($diff as $item) {
+        foreach ($added as $item) {
             $item->save();
+        }
+
+        foreach ($removed as $item) {
+            $item->delete();
         }
     }
 }

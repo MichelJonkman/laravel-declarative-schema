@@ -5,7 +5,7 @@ namespace MichelJonkman\DbalSchema\Models;
 use Illuminate\Database\Eloquent\Model;
 use MichelJonkman\DbalSchema\Database\SchemaMigrator;
 
-class SchemaTables extends Model
+class SchemaTable extends Model
 {
 
     protected $fillable = [
