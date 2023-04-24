@@ -166,11 +166,11 @@ class SchemaMigrator
             }
         }
 
-        if($this->schemaTableExists()) {
+        if ($this->schemaTableExists()) {
             $schemaTables = SchemaTable::pluck('table');
 
             foreach ($schemaTables as $schemaTable) {
-                if(in_array($schemaTable, $newTableNames)) {
+                if (in_array($schemaTable, $newTableNames)) {
                     continue;
                 }
 
@@ -187,13 +187,12 @@ class SchemaMigrator
      */
     protected function prepareSchemaTable(): Table
     {
-        $table = new Table($this->getSchemaTableName());
-        $table->addColumn('id', 'integer', ['unsigned' => true, 'autoincrement' => true]);
-        $table->setPrimaryKey(['id']);
+        $table = new \MichelJonkman\DbalSchema\Database\Table($this->getSchemaTableName());
+        $table->addId();
 
         $table->addColumn('table', 'string');
-        $table->addColumn('created_at', 'datetime');
-        $table->addColumn('updated_at', 'datetime');
+
+        $table->addTimestamps();
 
         return $table;
     }

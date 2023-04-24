@@ -1,14 +1,18 @@
 <?php
 
-use Doctrine\DBAL\Schema\Table;
 use MichelJonkman\DbalSchema\Database\DeclarativeSchema;
+use MichelJonkman\DbalSchema\Database\Table;
 
-return new class extends DeclarativeSchema
-{
+return new class extends DeclarativeSchema {
     function declare(): Table
     {
         $table = new Table('{{table}}');
 
+        $table->addId();
+
+
+
+        $table->addTimestamps();
 
         return $table;
     }
