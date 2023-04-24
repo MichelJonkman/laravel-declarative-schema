@@ -11,6 +11,7 @@ use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Table;
 use Illuminate\Console\View\Components\Info;
 use Illuminate\Console\View\Components\TwoColumnDetail;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
 use MichelJonkman\DbalSchema\Events\GetDeclarationsEvent;
 use MichelJonkman\DbalSchema\Exceptions\DeclarativeSchemaException;
@@ -20,7 +21,6 @@ use Throwable;
 
 class SchemaMigrator
 {
-    protected ConnectionManager     $connectionManager;
     protected Connection            $connection;
     protected AbstractSchemaManager $schemaManager;
     protected OutputInterface|null  $output = null;
@@ -28,9 +28,8 @@ class SchemaMigrator
     /**
      * @throws Exception
      */
-    public function __construct(ConnectionManager $connectionManager)
+    public function __construct(protected ConnectionManager $connectionManager, protected Application $laravel)
     {
-        $this->connectionManager = $connectionManager;
         $this->connection = $this->connectionManager->getConnection();
         $this->schemaManager = $this->connection->createSchemaManager();
     }
@@ -245,5 +244,10 @@ class SchemaMigrator
         foreach ($removed as $item) {
             $item->delete();
         }
+    }
+
+    public function getSchemaPath(): string
+    {
+        return $this->laravel->databasePath().DIRECTORY_SEPARATOR.'schema';
     }
 }

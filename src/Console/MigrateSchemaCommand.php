@@ -8,6 +8,7 @@ use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use MichelJonkman\DbalSchema\Database\SchemaMigrator;
 use MichelJonkman\DbalSchema\Exceptions\DeclarativeSchemaException;
+use Throwable;
 
 class MigrateSchemaCommand extends Command
 {
@@ -21,6 +22,7 @@ class MigrateSchemaCommand extends Command
      * @throws SchemaException
      * @throws Exception
      * @throws DeclarativeSchemaException
+     * @throws Throwable
      */
     public function handle(): int
     {
@@ -31,13 +33,8 @@ class MigrateSchemaCommand extends Command
         $migrator = app(SchemaMigrator::class);
         $migrator->setOutput($this->getOutput());
 
-        $migrator->migrateSchema($migrator->getDeclarations($this->getSchemaPath()));
+        $migrator->migrateSchema($migrator->getDeclarations($migrator->getSchemaPath()));
 
         return 0;
-    }
-
-    public function getSchemaPath(): string
-    {
-        return $this->laravel->databasePath().DIRECTORY_SEPARATOR.'schema';
     }
 }
