@@ -31,6 +31,8 @@
     "extra": {
         "laravel": {
             "providers": [
+
+                "MichelJonkman\\DbalSchema\\Providers\\SchemaServiceProvider",
                 "MichelJonkman\\DbalSchema\\Providers\\DbalSchemaServiceProvider"
             ]
         }

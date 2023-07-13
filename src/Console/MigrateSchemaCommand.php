@@ -33,7 +33,7 @@ class MigrateSchemaCommand extends Command
         $migrator = app(SchemaMigrator::class);
         $migrator->setOutput($this->getOutput());
 
-        $migrator->migrateSchema($migrator->getDeclarations($migrator->getSchemaPath()));
+        $migrator->migrateSchema($migrator->getDeclarations());
 
         return 0;
     }

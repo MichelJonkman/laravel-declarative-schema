@@ -28,28 +28,34 @@ class SchemaMigrator
     /**
      * @throws Exception
      */
-    public function __construct(protected ConnectionManager $connectionManager, protected Application $laravel)
+    public function __construct(protected ConnectionManager $connectionManager, protected Application $laravel, protected \MichelJonkman\DbalSchema\Schema $schema)
     {
         $this->connection = $this->connectionManager->getConnection();
         $this->schemaManager = $this->connection->createSchemaManager();
     }
 
-    protected function getSchemaFiles(string $path): array
+    protected function getSchemaFiles(): array
     {
-        return glob("$path/*.php") ?: [];
+        $files = [];
+
+        foreach ($this->schema->getSchemaPaths() as $path) {
+            $files = array_merge($files, glob("$path/*.php") ?: []);
+        }
+
+        return $files;
     }
 
     /**
      * @return Table[]|Collection
      * @throws DeclarativeSchemaException
      */
-    public function getDeclarations(string $path): array|Collection
+    public function getDeclarations(): array|Collection
     {
         $tables = collect();
 
         $this->write(Info::class, 'Gathering declarations.');
 
-        foreach ($this->getSchemaFiles($path) as $file) {
+        foreach ($this->getSchemaFiles() as $file) {
             $declaration = include $file;
 
             if (!$declaration instanceof DeclarativeSchema) {

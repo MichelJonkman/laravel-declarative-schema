@@ -12,36 +12,26 @@ use MichelJonkman\DbalSchema\Console\MigrateCommand;
 use MichelJonkman\DbalSchema\Console\MigrateSchemaCommand;
 use MichelJonkman\DbalSchema\Database\ConnectionManager;
 use MichelJonkman\DbalSchema\Database\SchemaCreator;
+use MichelJonkman\DbalSchema\Database\SchemaMigrator;
+use MichelJonkman\DbalSchema\Schema;
 
-class DbalSchemaServiceProvider extends ServiceProvider implements DeferrableProvider
+class SchemaServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->scoped(ConnectionManager::class);
         $this->app->scoped(Migrator::class, function (Application $app) {
             return $app->make('migrator');
         });
+
+        $this->app->singleton(SchemaCreator::class, function ($app) {
+            return new SchemaCreator($app['files'], $app->basePath('stubs'));
+        });
+
+        $this->app->scoped(Schema::class);
     }
 
     public function boot(): void
     {
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                MigrateSchemaCommand::class,
-                MigrateCommand::class,
-                MakeSchemaCommand::class,
-            ]);
-        }
-    }
-
-    public function provides(): array
-    {
-        return [
-            MigrateCommand::class,
-            MigrateSchemaCommand::class,
-            MakeSchemaCommand::class,
-            ConnectionManager::class,
-            Migrator::class
-        ];
+        app(Schema::class)->loadSchemaFrom(app(SchemaMigrator::class)->getSchemaPath());
     }
 }
