@@ -19,6 +19,8 @@ class SchemaServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->scoped(ConnectionManager::class);
+
         $this->app->scoped(Migrator::class, function (Application $app) {
             return $app->make('migrator');
         });

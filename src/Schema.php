@@ -17,11 +17,6 @@ class Schema
 
     public function getSchemaPaths(): array
     {
-        echo '<pre>';
-        print_r($this->schemaPaths);
-        echo '</pre>';
-        exit;
-
         return $this->schemaPaths;
     }
 
