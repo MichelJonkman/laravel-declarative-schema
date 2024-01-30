@@ -1,5 +1,5 @@
 {
-    "name": "micheljonkman/laravel-dbal-schema",
+    "name": "micheljonkman/laravel-declarative-schema",
     "version": "0.1.0",
     "description": "",
     "keywords": [
@@ -7,7 +7,7 @@
         "laravel-director",
         "laravel-dbal-schema"
     ],
-    "homepage": "https://github.com/micheljonkman/laravel-dbal-schema",
+    "homepage": "https://github.com/micheljonkman/laravel-declarative-schema",
     "license": "MIT",
     "authors": [
         {
@@ -19,21 +19,20 @@
     "require": {
         "php": "^8.1",
         "laravel/framework": "^10.0",
-        "doctrine/dbal": "^3.6.2"
+        "micheljonkman/declarative-schema": "^1.0.0"
     },
     "require-dev": {
     },
     "autoload": {
         "psr-4": {
-            "MichelJonkman\\DbalSchema\\": "src"
+            "MichelJonkman\\LaravelDeclarativeSchema\\": "src"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-
-                "MichelJonkman\\DbalSchema\\Providers\\SchemaServiceProvider",
-                "MichelJonkman\\DbalSchema\\Providers\\DbalSchemaServiceProvider"
+                "MichelJonkman\\LaravelDeclarativeSchema\\Providers\\SchemaServiceProvider",
+                "MichelJonkman\\LaravelDeclarativeSchema\\Providers\\ConsoleServiceProvider"
             ]
         }
     },

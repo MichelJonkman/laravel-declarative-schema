@@ -1,14 +1,14 @@
 <?php
 
-namespace MichelJonkman\DbalSchema\Providers;
+namespace MichelJonkman\LaravelDeclarativeSchema\Providers;
 
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
-use MichelJonkman\DbalSchema\Console\MakeSchemaCommand;
-use MichelJonkman\DbalSchema\Console\MigrateCommand;
-use MichelJonkman\DbalSchema\Console\MigrateSchemaCommand;
+use MichelJonkman\LaravelDeclarativeSchema\Console\MigrateCommand;
+use MichelJonkman\DeclarativeSchema\Console\MakeSchemaCommand;
+use MichelJonkman\DeclarativeSchema\Console\MigrateSchemaCommand;
 
-class DbalSchemaServiceProvider extends ServiceProvider implements DeferrableProvider
+class ConsoleServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     public function boot(): void
     {

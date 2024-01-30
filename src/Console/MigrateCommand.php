@@ -1,6 +1,6 @@
 <?php
 
-namespace MichelJonkman\DbalSchema\Console;
+namespace MichelJonkman\LaravelDeclarativeSchema\Console;
 
 class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateCommand
 {
