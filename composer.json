@@ -1,6 +1,6 @@
 {
     "name": "micheljonkman/laravel-declarative-schema",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "description": "",
     "keywords": [
         "MichelJonkman",
@@ -19,7 +19,7 @@
     "require": {
         "php": "^8.1",
         "laravel/framework": "^10.0",
-        "micheljonkman/declarative-schema": "^1.0.0"
+        "micheljonkman/declarative-schema": "^1.2.0"
     },
     "require-dev": {
     },
