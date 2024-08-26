@@ -44,9 +44,9 @@ class SchemaServiceProvider extends ServiceProvider
 
             'connection' => [
                 'dbname' => $config['database'],
-                'user' => $config['username'],
-                'password' => $config['password'],
-                'host' => $config['host'],
+                'user' => $config['username'] ?? '',
+                'password' => $config['password'] ?? '',
+                'host' => $config['host'] ?? '',
                 'driver' => 'pdo_' . $config['driver'],
             ]
         ]);
